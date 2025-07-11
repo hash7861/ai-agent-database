@@ -1,0 +1,6 @@
+version: "3"
+services:
+  mayanedms:
+    image: mayanedms
+    ports:
+      - "3000:3000"

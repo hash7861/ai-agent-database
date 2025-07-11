@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  siyuan:
+    build: .
+    image: siyuan_custom
+    ports:
+      - "6806:6806"
+    volumes:
+      - siyuan_data:/siyuan
+
+volumes:
+  siyuan_data:

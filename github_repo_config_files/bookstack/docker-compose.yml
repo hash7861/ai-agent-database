@@ -1,0 +1,6 @@
+version: "3"
+services:
+  bookstack:
+    image: bookstack
+    ports:
+      - "3000:3000"

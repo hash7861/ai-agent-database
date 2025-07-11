@@ -1,0 +1,6 @@
+version: "3"
+services:
+  snipeit:
+    image: snipe-it
+    ports:
+      - "3000:3000"
