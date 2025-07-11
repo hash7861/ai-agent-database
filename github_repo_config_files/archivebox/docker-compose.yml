@@ -1,14 +1,20 @@
-version: '3.1'
+version: '3.3'
 
 services:
   archivebox:
     image: archivebox/archivebox:latest
-    command: server --quick-init 0.0.0.0:8000
+    container_name: archivebox
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
-      - ./data:/data
+      - archivebox-data:/data
     environment:
       - ALLOWED_HOSTS=*
-      - SECRET_KEY=devsecret
-      - DEBUG=true
+      - SECRET_KEY=dev
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+    restart: unless-stopped
+    command: server --quick-init 0.0.0.0:8000
+
+volumes:
+  archivebox-data:
