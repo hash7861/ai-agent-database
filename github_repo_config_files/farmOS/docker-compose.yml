@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  farmos:
+    image: farmos/farmos:3.4.5
+    container_name: farmos
+    ports:
+      - "80:80"
+    volumes:
+      - farmos_data:/var/farmOS
+    restart: unless-stopped
+
+volumes:
+  farmos_data:
