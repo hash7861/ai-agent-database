@@ -1,6 +1,37 @@
-version: "3"
+version: '3.8'
+
 services:
+  db:
+    image: postgres:15
+    container_name: pretix-db
+    environment:
+      POSTGRES_DB: pretix
+      POSTGRES_USER: pretix
+      POSTGRES_PASSWORD: pretix
+    volumes:
+      - pretix_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: pretix-redis
+    restart: unless-stopped
+
   pretix:
-    image: pretix
+    image: pretix/standalone:latest
+    container_name: pretix
+    depends_on:
+      - db
+      - redis
     ports:
-      - "3000:3000"
+      - "8345:80"
+    environment:
+      DATABASE_URL: postgres://pretix:pretix@db:5432/pretix
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - pretix_data:/data
+    restart: unless-stopped
+
+volumes:
+  pretix_db_data:
+  pretix_data:
