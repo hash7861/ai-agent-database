@@ -1,6 +1,22 @@
-version: "3"
+version: '3.8'
+
 services:
   statping:
-    image: statping
+    image: statping/statping:latest
+    container_name: statping
     ports:
-      - "3000:3000"
+      - "8080:8080"
+    volumes:
+      - statping_data:/app
+    environment:
+      - IS_DOCKER=true
+      - PORT=8080
+    healthcheck:
+      test: ["CMD", "curl", "-s", "http://localhost:8080/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  statping_data:

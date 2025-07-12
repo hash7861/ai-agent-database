@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mediacms:
+    image: mediacms/mediacms:latest
+    container_name: mediacms
+    ports:
+      - "9000:9000"
+    environment:
+      ENABLE_UWSGI: 'yes'
+      ENABLE_NGINX: 'yes'
+      ENABLE_CELERY_BEAT: 'yes'
+      ENABLE_CELERY_SHORT: 'yes'
+      ENABLE_CELERY_LONG: 'yes'
+      ENABLE_MIGRATIONS: 'yes'
+    volumes:
+      - mediacms_data:/home/mediacms.io/mediacms/media
+      - mediacms_static:/home/mediacms.io/mediacms/static
+    restart: unless-stopped
+
+volumes:
+  mediacms_data:
+  mediacms_static:
