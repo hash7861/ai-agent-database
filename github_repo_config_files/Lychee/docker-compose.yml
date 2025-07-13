@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  lychee-db:
+    image: mariadb:10.11
+    container_name: lychee-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: lychee
+      MYSQL_USER: lychee
+      MYSQL_PASSWORD: lychee
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - lychee_db_data:/var/lib/mysql
+
+  lychee:
+    image: lycheeorg/lychee:latest
+    container_name: lychee
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    depends_on:
+      - lychee-db
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: lychee-db
+      DB_PORT: 3306
+      DB_DATABASE: lychee
+      DB_USERNAME: lychee
+      DB_PASSWORD: lychee
+    volumes:
+      - lychee_uploads:/conf/uploads
+      - lychee_logs:/conf/log
+      - lychee_config:/conf/.env
+
+volumes:
+  lychee_db_data:
+  lychee_uploads:
+  lychee_logs:
+  lychee_config:

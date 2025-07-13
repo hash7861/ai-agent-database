@@ -1,6 +1,27 @@
-version: "3"
+version: '3.8'
+
 services:
-  stirlingpdf:
-    image: stirling-pdf
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
     ports:
-      - "3000:3000"
+      - "8080:8080"
+    volumes:
+      - stirling_configs:/configs
+      - stirling_logs:/logs
+      - stirling_custom:/customFiles
+      - stirling_pipeline:/pipeline
+      - stirling_temp:/tmp/stirling-pdf
+    environment:
+      PUID: 1000
+      PGID: 1000
+      UMASK: 022
+      DISABLE_ADDITIONAL_FEATURES: "true"
+    restart: unless-stopped
+
+volumes:
+  stirling_configs:
+  stirling_logs:
+  stirling_custom:
+  stirling_pipeline:
+  stirling_temp:

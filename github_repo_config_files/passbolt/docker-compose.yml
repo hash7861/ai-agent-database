@@ -1,6 +1,48 @@
-version: "3"
+version: '3.8'
+
 services:
   passbolt:
-    image: passbolt
+    image: passbolt/passbolt:latest
+    container_name: passbolt
+    depends_on:
+      - mariadb
+    environment:
+      APP_FULL_BASE_URL: http://localhost
+      DATASOURCES_DEFAULT_HOST: mariadb
+      DATASOURCES_DEFAULT_USERNAME: passbolt
+      DATASOURCES_DEFAULT_PASSWORD: passbolt
+      DATASOURCES_DEFAULT_DATABASE: passbolt
+      EMAIL_DEFAULT_FROM: passbolt@example.com
+      EMAIL_TRANSPORT_DEFAULT_HOST: smtp
+      EMAIL_TRANSPORT_DEFAULT_PORT: 587
+      EMAIL_TRANSPORT_DEFAULT_USERNAME: your-smtp-user
+      EMAIL_TRANSPORT_DEFAULT_PASSWORD: your-smtp-pass
     ports:
-      - "3000:3000"
+      - "8080:80"
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    restart: unless-stopped
+
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: passbolt
+      MYSQL_USER: passbolt
+      MYSQL_PASSWORD: passbolt
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+
+  smtp:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+
+volumes:
+  gpg_volume:
+  jwt_volume:
+  db_data:
