@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  solidtime:
+    image: solidtime/solidtime:latest
+    container_name: solidtime
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      # You can override these or mount a .env file
+      APP_ENV: production
+      APP_KEY: base64:some-random-app-key
+      APP_DEBUG: false
+      LOG_CHANNEL: stderr
+    volumes:
+      - solidtime_data:/var/www/html/storage
+    command: start-container
+
+volumes:
+  solidtime_data:
