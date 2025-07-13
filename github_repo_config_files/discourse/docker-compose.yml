@@ -1,6 +1,38 @@
-version: "3"
+version: '3.8'
+
 services:
+  postgresql:
+    image: bitnami/postgresql:15
+    container_name: discourse-postgres
+    environment:
+      - POSTGRESQL_USERNAME=bn_discourse
+      - POSTGRESQL_PASSWORD=bitnami123
+      - POSTGRESQL_DATABASE=bitnami_discourse
+    volumes:
+      - discourse_postgres_data:/bitnami/postgresql
+    restart: unless-stopped
+
   discourse:
-    image: discourse
+    image: bitnami/discourse:latest
+    container_name: discourse
+    depends_on:
+      - postgresql
+    environment:
+      - DISCOURSE_USERNAME=admin
+      - DISCOURSE_PASSWORD=adminpass
+      - DISCOURSE_EMAIL=admin@example.com
+      - DISCOURSE_HOST=localhost
+      - POSTGRESQL_HOST=postgresql
+      - POSTGRESQL_PORT_NUMBER=5432
+      - POSTGRESQL_USERNAME=bn_discourse
+      - POSTGRESQL_PASSWORD=bitnami123
+      - POSTGRESQL_DATABASE=bitnami_discourse
     ports:
       - "3000:3000"
+    volumes:
+      - discourse_data:/bitnami/discourse
+    restart: unless-stopped
+
+volumes:
+  discourse_postgres_data:
+  discourse_data:

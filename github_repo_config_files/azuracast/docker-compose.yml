@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  azuracast-db:
+    image: mariadb:10.6
+    container_name: azuracast-db
+    environment:
+      MYSQL_ROOT_PASSWORD: strongmariadbpassword
+      MYSQL_DATABASE: azuracast
+      MYSQL_USER: azuracast
+      MYSQL_PASSWORD: azur4c457
+    volumes:
+      - ./azuracast_db:/var/lib/mysql
+    restart: unless-stopped
+
+  azuracast:
+    image: azuracast/azuracast:latest
+    container_name: azuracast
+    depends_on:
+      - azuracast-db
+    environment:
+      - MYSQL_HOST=azuracast-db
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=azuracast
+      - MYSQL_USER=azuracast
+      - MYSQL_PASSWORD=azur4c457
+      - APPLICATION_ENV=production
+      - ENABLE_REDIS=true
+    volumes:
+      - ./azuracast_stations:/var/azuracast/stations
+      - ./azuracast_backups:/var/azuracast/backups
+      - ./azuracast_data:/var/azuracast
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000-8099:8000-8099"
+    restart: unless-stopped

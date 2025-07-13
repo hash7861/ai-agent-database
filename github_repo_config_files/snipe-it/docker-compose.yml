@@ -1,6 +1,38 @@
-version: "3"
+version: '3.8'
+
 services:
+  snipeit-db:
+    image: mariadb:10.6
+    container_name: snipeit-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: snipeit
+      MYSQL_USER: snipeit
+      MYSQL_PASSWORD: snipeitpass
+    volumes:
+      - ./snipeit_db_data:/var/lib/mysql
+    restart: unless-stopped
+
   snipeit:
-    image: snipe-it
+    image: snipe/snipe-it:latest
+    container_name: snipeit
+    depends_on:
+      - snipeit-db
+    environment:
+      - APP_URL=http://localhost:8080
+      - APP_KEY=SomeRandomStringWith32Characters
+      - DB_HOST=snipeit-db
+      - DB_DATABASE=snipeit
+      - DB_USERNAME=snipeit
+      - DB_PASSWORD=snipeitpass
+      - MAIL_PORT=1025
+      - TZ=UTC
+    volumes:
+      - ./snipeit_data:/var/lib/snipeit
     ports:
-      - "3000:3000"
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  snipeit_db_data:
+  snipeit_data:
