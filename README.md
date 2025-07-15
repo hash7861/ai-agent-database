@@ -33,7 +33,6 @@ Apps were chosen based on the following **quantifiable metrics**:
 
 | Metric              | Threshold/Definition                                         |
 |---------------------|--------------------------------------------------------------|
-| **Popularity**      | ≥ 500 GitHub stars **OR** ≥ 1,000 Docker Hub pulls           |
 | **Maintenance**     | Updated within the last **1–2 years**                        |
 | **Docker Support**  | Official Docker image or repo-provided Dockerfile            |
 | **Usefulness**      | Belongs to core domains: automation, monitoring, dashboards, note-taking, communication, etc. |
@@ -46,7 +45,7 @@ These guidelines are consistent with my original evaluation heuristics for agent
 
 ### Option 1: Manual Per-App Deployment
 
-```bash
+git clone <APP_GITHUB_WEBSITE>
 cd github_repo_config_files/<APP_NAME>
 docker-compose up -d
 ```
@@ -93,7 +92,7 @@ done
 echo "ALL DONE!"
 ```
 
-> ⚠️ Many apps require Compose and multiple services. This script is best for filtering simple, single-container images.
+> ⚠️ Many apps require Compose and multiple services. **This script is best for filtering simple, single-container images.**
 
 ---
 
@@ -123,21 +122,6 @@ All applications retain the license from their upstream open-source projects. Th
 - **Affiliation**: Midwest VICEROY Institute, The Ohio State University  
 - **Project**: *Automatic Docker Web Deployment with Agentic AI* (Summer 2025)
 - **GitHub Repositories Utilized**: https://github.com/awesome-selfhosted/awesome-selfhosted, https://github.com/unicodeveloper/awesome-opensource-apps
-
----
-
-## 🤝 Contributions
-
-Pull requests to improve documentation, fix errors, or add additional automation features (like CI validation) are welcome. Please open an issue or contact the maintainer for larger changes.
-
----
-
-## 🔗 Related Topics
-
-- Agentic AI + Docker
-- AI-driven DevOps pipelines
-- Self-hosting & local-first web tools
-- Container orchestration benchmarking
 
 ---
 
