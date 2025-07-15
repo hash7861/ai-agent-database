@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  hievents:
+    image: serversideup/all-in-one:latest
+    container_name: hi.events
+    ports:
+      - "8123:80"       # Public frontend
+      - "5678:5678"     # SSR port
+    env_file:
+      - .env
+    volumes:
+      - hievents_data:/app
+    restart: unless-stopped
+
+volumes:
+  hievents_data:
